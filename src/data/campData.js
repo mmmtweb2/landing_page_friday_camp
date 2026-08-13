@@ -87,5 +87,8 @@ export const SESSIONS = [
     dateDisplay: '14.08.2026',
     hebrewDate: 'א׳ באלול ה׳תשפ״ו',
     published: false,
+    // Registration reopened manually after the regular Thursday 09:00 cutoff passed;
+    // extended through the session start (Friday 09:00).
+    registrationCloses: '2026-08-14T09:00:00',
   },
 ]

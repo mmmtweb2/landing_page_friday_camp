@@ -1,5 +1,7 @@
 // Registration for each Friday session opens the Sunday before it and
 // closes Thursday morning (09:00) before it, per the camp's weekly model.
+// A session can set `registrationCloses` to override the default Thursday
+// cutoff with a specific ISO datetime (used for one-off extensions).
 export function getSessionWindow(session) {
   const friday = new Date(`${session.date}T09:00:00`)
 
@@ -7,9 +9,14 @@ export function getSessionWindow(session) {
   opens.setDate(friday.getDate() - 5)
   opens.setHours(0, 0, 0, 0)
 
-  const closes = new Date(friday)
-  closes.setDate(friday.getDate() - 1)
-  closes.setHours(9, 0, 0, 0)
+  const closes = session.registrationCloses
+    ? new Date(session.registrationCloses)
+    : (() => {
+        const defaultClose = new Date(friday)
+        defaultClose.setDate(friday.getDate() - 1)
+        defaultClose.setHours(9, 0, 0, 0)
+        return defaultClose
+      })()
 
   const ends = new Date(friday)
   ends.setHours(23, 59, 59, 999)
